@@ -2,7 +2,8 @@ f = open("d3.txt", "r")
 
 f.readline()
 line = f.readline()
-width = len(line)
+width = len(line.strip())
+print(width)
 
 offset = 3
 res = 0
@@ -11,7 +12,8 @@ while line and len(line) > 0:
     ind = offset % width
     c = line[ind]
     # print(c)
-    res += 1 if c == "#" else 0
+    if c == "#":
+        res += 1
     line = f.readline()
     offset += 3
 
