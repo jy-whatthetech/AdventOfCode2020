@@ -49,13 +49,15 @@ for i in range(1, len(nums)):
     while (temp + offset) % b != 0 and inc < 1000000:
         temp += sofarlcm
         inc += 1
+
+    print(temp)
     
-    sofarlcm = lcm(temp, temp + offset)
-    sofar = temp
+    sofarlcm = lcm(sofarlcm, b)
+    sofar = temp + offset
 
 
-print(sofar)
-print(sofarlcm)
+print(sofar - nums[-1][0])
+# print(sofarlcm)
 
 
     
