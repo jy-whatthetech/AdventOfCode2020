@@ -70,51 +70,5 @@ for n in range(0, 6):
 
     curr = nxt
 
-
 print(len(curr))
-    
-
-# generate poss in triple for loop, but ignore 0,0,0
-
- 
-
-
-# classToRange = {}
-# validRanges = []
-# for row in arr[0]:
-#     key, textRange = row.split(":")
-#     r1, r2 = textRange.split(" or ")
-    
-#     r1sp = [int(x) for x in r1.split("-")]
-#     r2sp = [int(x) for x in r2.split("-")]
-
-#     # print(key)
-#     # print(r1sp)
-#     # print(r2sp)
-
-#     classToRange[key] = (r1sp, r2sp)
-
-#     validRanges.append(r1sp)
-#     validRanges.append(r2sp)
-
-
-# infinite 3d grid
-# every xyz there exists a single cube which is either active or inactive
-# ALMOST all cubes start inactive
-
-# small flat region of cubes active (puzzle input)
-#   -specified active or inactive
-
-# SIX cycles
-# -consider neighbors (26)
-
-# during cycle:
-#  ALL cubs change their state according to rules:
-#    - if active and 2 to 3 neighbors active, cube remains active, else become inactive
-#    - if inactive but EXACLTY 3 neighboors are active, become active
-
-#    - 3 neighbors => active
-#    - 2 neighbors => if active remain active, else inactive
-
-# return # active cubes after 6 cycles
 
