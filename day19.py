@@ -1,3 +1,5 @@
+import re
+
 f = open("d19.txt", "r")
 
 collect = [[]]
@@ -18,115 +20,59 @@ while line:
 
 f.close()
 
-arr = [] # this data structure holds the structure of our data
-
 ruleMap = {}
 
 # process rules
 for line in collect[0]:
-    
+    toAdd = []
     # ADD WHAT YOU WANT TO DO TO EACH LINE HERE
-
-    key, rule = line.split(": ")
-    ruleMap[key] = []
-    
-    # process rule
-    if rule.find("|") >= 0:
-        ruleA, ruleB = rule.split(" | ")
-        for r in [ruleA, ruleB]:
-            ruleMap[key].append(r.split(" "))
-    elif rule.find(" ") >= 0:
-        ruleMap[key].append(rule.split(" "))
+    key, rules = line.split(": ")
+    rulesp = rules.split(" ")
+    if rules.find("|") >= 0:
+        # add paren
+        toAdd.append("(")
+        toAdd.append("?")
+        toAdd.append(":")
+        toAdd.extend(rulesp)
+        toAdd.append(")")
     else:
-        ruleMap[key].append(rule[1:2])
-
-print(ruleMap)
-
-# return (expandedArr, True if leaf)
-def expand(exp):
-    rtn = []
-    for key in exp:
-        if key >= "a" and key <= "z":
-            rtn.append(key)
+        if rulesp[0].find('"') >= 0:
+            toAdd.append(rulesp[0][1:2])
         else:
-            # lookup
-            ruleVal = ruleMap[key]
-            if rule
+            toAdd.extend(rulesp)
 
-    return [rtn, isLeaf]
+    # print(toAdd)
 
-curr = ["0"]
-# while True:
-#     hasVars = False
-#     nxt = []
+    ruleMap[key] = toAdd
 
-#     for exp in curr:
-#         expandedArr, isLeaf = expandExp(exp)
-#         if isLeaf:
-#             allPos.append(expandedArr[0])
-#         else:
-#             hasVars = True
-#             nxt.extend(expandedArr)
-#     # scan all, if no variables, break
-#     if not hasVars:
-#         break
+s8 = "(?:(?:(?:(?:b(?:b(?:b(?:aa|bb)|a(?:aa|b(?:b|a)))|a(?:b(?:aa|bb)|aba))|a(?:b(?:b(?:ba|aa)|aab)|a(?:b|a)(?:aa|b(?:b|a))))a|(?:a(?:b(?:aba|(?:a(?:b|a)|ba)b)|a(?:bba|a(?:aa|b(?:b|a))))|b(?:(?:a(?:aa|bb)|b(?:aa|b(?:b|a)))a|(?:aba|(?:a(?:b|a)|ba)b)b))b)a|(?:(?:b(?:(?:bba|a(?:bb|ab))b|(?:aba|(?:a(?:b|a)|ba)b)a)|a(?:b(?:(?:ba|bb)b|(?:bb|ab)a)|a(?:(?:ba|ab)a|(?:ba|aa)b)))b|(?:a(?:a(?:(?:a(?:b|a)|bb)b|baa)|b(?:(?:a(?:b|a)|bb)a|(?:a(?:b|a)|ba)b))|b(?:a(?:b(?:a(?:b|a)|ba)|a(?:aa|b(?:b|a)))|b(?:(?:bb|ab)b|aba)))a)b)a|(?:a(?:(?:(?:a(?:(?:aa|ab)b|(?:ba|ab)a)|b(?:ba|ab)b)a|(?:babb|(?:(?:ba|bb)b|bba)a)b)a|(?:(?:a(?:aba|b(?:aa|b(?:b|a)))|b(?:bbb|bba))b|(?:a(?:b(?:a(?:b|a)|ba)|a(?:bb|ab))|b(?:b(?:aa|bb)|a(?:a(?:b|a)|ba)))a)b)|b(?:a(?:a(?:b(?:b(?:bb|ab)|a(?:b|a)(?:b|a))|a(?:abb|b(?:ab|b(?:b|a))))|b(?:(?:b(?:a(?:b|a)|ba)|a(?:bb|ab))a|(?:b(?:aa|bb)|a(?:aa|b(?:b|a)))b))|b(?:(?:(?:b(?:a(?:b|a)|ba)|a(?:aa|ab))b|(?:(?:a(?:b|a)|bb)b|baa)a)a|(?:b(?:(?:ba|ab)b|bba)|a(?:bab|aba))b)))b)+"
+s8arr = []
+for c in s8:
+    s8arr.append(c)
+ruleMap["8"] = s8arr
 
-    
+curr = ruleMap["0"]
+print(curr)
 
-# list of the rules valid messages should obey
-# ist of received messages
+found = True
+while found:
+    found = False
+    nxt = []
+    for word in curr:
+        if word in ruleMap:
+            found = True
+            nxt.extend(ruleMap[word])
+        else:
+            nxt.append(word)
+    curr = nxt
 
-# pipe (|). This means that at least one list of sub-rules must match.
+rstring = "^" + "".join(curr) + "$"
 
+print(rstring)
 
-
-# results = []
-
-# def compress(stack):
-#     res = 1
-#     for i in stack:
-#         res *= i
-#     return res
-    
-# def evalExp(tempArr, ind):
-#     res = 0
-#     opStack = []
-#     stack = []
-#     i = ind
-#     while i < len(tempArr):
-#         val = tempArr[i]
-#         if val == ")":
-#             return (compress(stack), i + 1)
-#         elif val == "(":
-#             nestedVal, nxt = evalExp(tempArr, i + 1)
-#             stack.append(nestedVal)
-#             i = nxt
-#         elif val == "+" or val == "*":
-#             opStack.append(val)
-#             i += 1
-#             continue
-#         else:
-#             stack.append(val)
-#             i += 1
-        
-#         if len(opStack) and opStack[-1] == "+":
-#             op = opStack.pop()
-#             a, b = stack.pop(), stack.pop()
-#             stack.append(a + b)
-
-#     return (compress(stack), i)
-
-# for line in arr:
-#     toAdd = []
-#     for c in line:
-#         if c == " ":
-#             continue
-#         if c >= "0" and c <= "9":
-#             toAdd.append(int(c) )
-#         else:
-#             toAdd.append(c)
-#     curr = evalExp(toAdd, 0)[0]
-#     results.append(curr)
-
-# print(sum(results))
-
+res = 0
+for s in collect[1]:
+    searchResult = re.search(rstring, s)
+    if searchResult != None:
+        res += 1
+print(res)
